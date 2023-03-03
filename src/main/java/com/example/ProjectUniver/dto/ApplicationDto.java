@@ -6,4 +6,5 @@ import lombok.Data;
 public class ApplicationDto {
     private String firstName;
     private ServiceDopDto serviceDopDto;
+
 }

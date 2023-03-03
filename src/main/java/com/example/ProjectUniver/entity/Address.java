@@ -23,6 +23,7 @@ public class Address {
     private AddressType addressType;
 
     @ManyToOne
+    //@OneToMany(mappedBy = "address")
     @JsonIgnore
     private Organization organization;
 }

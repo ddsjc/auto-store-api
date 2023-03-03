@@ -1,7 +1,11 @@
 package com.example.ProjectUniver.controllers;
 
+import com.example.ProjectUniver.dto.AddressDto;
+import com.example.ProjectUniver.dto.AddressTypeDto;
 import com.example.ProjectUniver.dto.ApplicationDto;
 import com.example.ProjectUniver.dto.ServiceDopDto;
+import com.example.ProjectUniver.entity.Address;
+import com.example.ProjectUniver.entity.AddressType;
 import com.example.ProjectUniver.entity.Application;
 import com.example.ProjectUniver.entity.ServiceDop;
 import com.example.ProjectUniver.repository.UserRepository;
@@ -37,15 +41,18 @@ public class ApplicationController {
     @PostMapping("/createapplication")
     @Operation(summary = "Создать заявочку")
 
-    public ResponseEntity<Application> createEventDraft(@RequestBody ApplicationDto applicationDTO,
+    public ResponseEntity<Application> createApplication(@RequestBody ApplicationDto applicationDTO,
                                                         @AuthenticationPrincipal UserDetails userDetails) {
-        Application event = convertToEventDraft(applicationDTO);
+        Application event = convertToApplication(applicationDTO);
+        //Address address = convertToAddress(applicationDTO.getAddressDto());
+        //AddressType addressType = convertToAddressType(applicationDTO.getAddressDto().getAddressTypeDto());
         ServiceDop serviceDop= convertToServiceDop(applicationDTO.getServiceDopDto());
         event.setUser(userRepository.findUserByLogin(userDetails.getUsername()));
         applicationService.createApplication(event, serviceDop);
         return ResponseEntity.ok(event);
     }
-    private Application convertToEventDraft(ApplicationDto applicationDTO) {
+
+    private Application convertToApplication(ApplicationDto applicationDTO) {
         return modelMapper.map(applicationDTO, Application.class);
     }
     private ServiceDop convertToServiceDop(ServiceDopDto serviceDopDto) {
