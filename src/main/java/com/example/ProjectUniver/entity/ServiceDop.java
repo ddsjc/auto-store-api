@@ -19,14 +19,16 @@ public class ServiceDop {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private Double price;
+    private String code;
+    private String price;
+    private String duration;
+    private String addInfo;
 
-    @ManyToMany
+   // @ManyToMany
+   // @JsonIgnore
+   // private Set<Application> applications;
+
+    @ManyToOne
     @JsonIgnore
-    //@Fetch(FetchMode.JOIN)
-    //@JoinTable(name = "application_serviceDop",
-    //        joinColumns = @JoinColumn(name = "application_id"),
-    //        inverseJoinColumns = @JoinColumn(name = "serviceDop_id"))
-    
-    private List<Application> applications;
+    private TypeOfService typeOfService;
 }

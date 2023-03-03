@@ -17,13 +17,22 @@ public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String firstName;
+    private String dateApplication;
+    private String addInfo;
 
-    @ManyToMany(mappedBy = "applications")
+    @ManyToMany
     @JsonIgnore
-    private List<ServiceDop> serviceDops;
+    @JoinTable(
+            name = "application_serviceDop",
+            joinColumns = @JoinColumn(name = "application_id"),
+            inverseJoinColumns = @JoinColumn(name = "serviceDop_id"))
+    private Set<ServiceDop> serviceDop;
 
     @ManyToOne
     @JsonIgnore
     private User user;
+
+    @ManyToOne
+    @JsonIgnore
+    private Organization organization;
 }

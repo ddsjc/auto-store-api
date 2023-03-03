@@ -31,6 +31,8 @@ public class User {
 
     private String password;
 
+    private String addInfo;
+
     private boolean status;
 
     private boolean isMailing;

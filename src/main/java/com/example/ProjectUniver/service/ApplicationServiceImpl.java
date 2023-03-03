@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -22,10 +23,10 @@ public class ApplicationServiceImpl implements ApplicationService{
     @Override
     public void createApplication(Application event, ServiceDop serviceDop) {
         //event.setCurrentDate(LocalDate.now());
-        List<ServiceDop> serviceDops = new ArrayList();
         ServiceDop serviceDop1 = serviceDopRepository.save(serviceDop);
-        serviceDops.add(serviceDop1);
-        event.setServiceDops(serviceDops);
+        Set<ServiceDop>serviceDopSet= new HashSet<>();
+        serviceDopSet.add(serviceDop1);
+        event.setServiceDop(serviceDopSet);
         Application savedEvent = applicationRepository.save(event);
     }
 
