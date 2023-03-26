@@ -67,5 +67,9 @@ public class User {
     @OneToMany (mappedBy = "user" )
     @JsonIgnore
     private List<Application> applications;
+
+    @OneToOne
+    @JsonIgnore
+    private Organization organization;
 }
 

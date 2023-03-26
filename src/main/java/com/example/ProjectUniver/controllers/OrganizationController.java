@@ -44,5 +44,11 @@ public class OrganizationController {
     private Address convertToAddress(AddressDto addressDto) {
         return modelMapper.map(addressDto, Address.class);
     }
-
+     /* organization.getUser().getFirstName();
+        Set<Address> addressSet = new HashSet(organization.getAddresses());
+        for (Address address1:addressSet
+             ) {
+                address1.getAddressType();
+                address1.getSubjectName();
+        }*/
 }

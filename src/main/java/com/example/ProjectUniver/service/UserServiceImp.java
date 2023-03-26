@@ -2,9 +2,7 @@ package com.example.ProjectUniver.service;
 
 import com.example.ProjectUniver.config.jwt.JwtUtils;
 import com.example.ProjectUniver.dto.*;
-import com.example.ProjectUniver.entity.ERole;
-import com.example.ProjectUniver.entity.Role;
-import com.example.ProjectUniver.entity.User;
+import com.example.ProjectUniver.entity.*;
 import com.example.ProjectUniver.exception.GlobalException;
 import com.example.ProjectUniver.repository.RoleRepository;
 import com.example.ProjectUniver.repository.UserRepository;
@@ -12,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,6 +41,8 @@ public class UserServiceImp implements UserService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private OrganizationService organizationService;
 
 
     @Override
@@ -102,6 +103,46 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public MessageResponse registration(RegistrationOrganizationDto registrationOrganizationDto) {
+        if (actorRepository.existsByLogin(registrationOrganizationDto.getUsername())) {
+//            throw new GlobalException("Ошибка: Пользователь с таким логином уже зарегистрирован!", HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Ошибка: Пользователь с таким логином уже зарегистрирован!");
+        }
+
+        if (actorRepository.existsActorByEmail(registrationOrganizationDto.getEmail())) {
+//            throw new GlobalException("Ошибка: Пользователь с таким email уже зарегестрирован", HttpStatus.BAD_REQUEST);
+            return new MessageResponse("Ошибка: Пользователь с таким email уже зарегистрирован!");
+
+        }
+
+        User user = new User(registrationOrganizationDto.getEmail(),registrationOrganizationDto.getUsername(), passwordEncoder.encode(registrationOrganizationDto.getPassword()), registrationOrganizationDto.getFirstName(),
+                registrationOrganizationDto.getLastName(), registrationOrganizationDto.getPatronymic(), registrationOrganizationDto.getPhoneNumber());
+
+        String requestRole = registrationOrganizationDto.getRole();
+        Set<Role> roles = new HashSet<>();
+
+        switch (requestRole) {
+            case "ROLE_ORGANIZATION":
+                Role roleStudent = roleRepository.findByName(ERole.ROLE_USER)
+                        .orElseThrow(() -> new GlobalException("Роль 'Пользователь' не найдена", HttpStatus.BAD_REQUEST));
+                roles.add(roleStudent);
+                break;
+        }
+        user.setRoles(roles);
+        Organization organization = convertToOrganization(registrationOrganizationDto);
+        AddressType addressType = convertToAddressType(registrationOrganizationDto.getAddressDto().getAddressTypeDto());
+        Address address = convertToAddress(registrationOrganizationDto.getAddressDto());
+        actorRepository.save(user);
+        organization.setUser(user);
+        organization.setApprove(false);
+        organizationService.createOrganization(organization, address, addressType);
+        user.setOrganization(organization);
+        actorRepository.save(user);
+        return new MessageResponse("Пользователь " + user.getLogin() + " успешно зарегистрирован!");
+    }
+
+
+    @Override
     public User findUserByLogin(String login) {
         return actorRepository.findUserByLogin(login);
     }
@@ -126,5 +167,17 @@ public class UserServiceImp implements UserService {
     private User convertToUser(UpdateDto actorDto) {
         return modelMapper.map(actorDto, User.class);
     }
+    private Organization convertToOrganization(RegistrationOrganizationDto registrationOrganizationDto) {
+        return modelMapper.map(registrationOrganizationDto, Organization.class);
+    }
+
+    private AddressType convertToAddressType(AddressTypeDto addressTypeDto) {
+        return modelMapper.map(addressTypeDto, AddressType.class);
+    }
+
+    private Address convertToAddress(AddressDto addressDto) {
+        return modelMapper.map(addressDto, Address.class);
+    }
 
 }
+
