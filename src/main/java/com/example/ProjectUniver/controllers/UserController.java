@@ -1,8 +1,15 @@
 package com.example.ProjectUniver.controllers;
 
+import com.example.ProjectUniver.dto.ApplicationDto;
+import com.example.ProjectUniver.dto.GetApplicationDto;
+import com.example.ProjectUniver.dto.GetOrganizationDto;
 import com.example.ProjectUniver.dto.UpdateDto;
+import com.example.ProjectUniver.entity.Application;
+import com.example.ProjectUniver.entity.Organization;
 import com.example.ProjectUniver.entity.User;
+import com.example.ProjectUniver.repository.ApplicationRepository;
 import com.example.ProjectUniver.repository.UserRepository;
+import com.example.ProjectUniver.service.ApplicationService;
 import com.example.ProjectUniver.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,6 +23,9 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @Tag(name = "Актёр", description = "Все методы для работы с пользователем")
 public class UserController {
@@ -25,6 +35,10 @@ public class UserController {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ApplicationService applicationService;
+    @Autowired
+    ApplicationRepository applicationRepository;
 
     @GetMapping("/user")
     @Operation(summary = "Показать информацию о пользователе")
@@ -44,7 +58,20 @@ public class UserController {
 //        actorRepository.save(actor);
 //        return ResponseEntity.ok(actor);
 //    }
+    @GetMapping("/applicationpage")
+    private ResponseEntity <List<GetApplicationDto>>GetApplication(){
+        List<Application> applicationList = applicationRepository.findAll();
+        List<GetApplicationDto> getApplicationDtos = new ArrayList<>();
+        for (Application application:applicationList
+        ) {
+            GetApplicationDto getApplicationDto = new GetApplicationDto(application.getId(),application.getDateApplication()
+                    ,application.getAddInfo(), application.getFirstName());
 
+            getApplicationDto.setServiceDopList(application.getServiceDop());
+            getApplicationDtos.add(getApplicationDto);
+        }
+        return ResponseEntity.ok(getApplicationDtos);
+    }
     @PatchMapping("/user/update")
     @Operation(summary = "Обновить информацию о пользователе")
     public ResponseEntity<User> updateUser(@RequestBody UpdateDto actorDto, @AuthenticationPrincipal UserDetails userDetails){

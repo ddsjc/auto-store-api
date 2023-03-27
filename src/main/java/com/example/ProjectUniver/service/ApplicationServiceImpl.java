@@ -1,9 +1,6 @@
 package com.example.ProjectUniver.service;
 
-import com.example.ProjectUniver.entity.Address;
-import com.example.ProjectUniver.entity.AddressType;
-import com.example.ProjectUniver.entity.Application;
-import com.example.ProjectUniver.entity.ServiceDop;
+import com.example.ProjectUniver.entity.*;
 import com.example.ProjectUniver.repository.AddressRepository;
 import com.example.ProjectUniver.repository.AddressTypeRepository;
 import com.example.ProjectUniver.repository.ApplicationRepository;
@@ -24,15 +21,16 @@ public class ApplicationServiceImpl implements ApplicationService{
     @Autowired
     private ServiceDopRepository serviceDopRepository;
     @Override
-    public void createApplication(Application event, ServiceDop serviceDop) {
+    public void createApplication(Application event, ServiceDop serviceDop, User user) {
         //event.setCurrentDate(LocalDate.now());
         ServiceDop serviceDop1 = serviceDopRepository.save(serviceDop);
-        Set<ServiceDop>serviceDopSet= new HashSet<>();
+        List<ServiceDop>serviceDopSet= new ArrayList<>();
         serviceDopSet.add(serviceDop1);
         event.setServiceDop(serviceDopSet);
-       // AddressType addressType1 = addressTypeRepository.save(addressType);
+        event.setUser(user);
+        //AddressType addressType1 = addressTypeRepository.save(addressType);
         //address.setAddressType(addressType1);
-       // Address address1 = addressRepository.save(address);
+        //Address address1 = addressRepository.save(address);
         Application savedEvent = applicationRepository.save(event);
     }
 

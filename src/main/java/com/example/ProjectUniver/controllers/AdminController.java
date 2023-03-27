@@ -80,6 +80,6 @@ OrganizationService organizationService;
         Organization organization = organizationService.findOrganizationByLogin(login);
         organization.setApprove(true);
         organizationRepository.save(organization);
-        return ResponseEntity.ok("successful");
+        return ResponseEntity.ok("Организация подтверждена");
     }
 }

@@ -17,6 +17,7 @@ public class Application {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String firstName;
     private String dateApplication;
     private String addInfo;
 
@@ -26,7 +27,7 @@ public class Application {
             name = "application_serviceDop",
             joinColumns = @JoinColumn(name = "application_id"),
             inverseJoinColumns = @JoinColumn(name = "serviceDop_id"))
-    private Set<ServiceDop> serviceDop;
+    private List<ServiceDop> serviceDop; //Sdes bil set vmesto list
 
     @ManyToOne
     @JsonIgnore
