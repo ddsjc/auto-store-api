@@ -29,9 +29,12 @@ public class Application {
             inverseJoinColumns = @JoinColumn(name = "serviceDop_id"))
     private List<ServiceDop> serviceDop; //Sdes bil set vmesto list
 
-    @ManyToOne
+    @OneToMany(mappedBy = "application")
     @JsonIgnore
-    private User user;
+    private List<User> user;
+    @ManyToMany(mappedBy = "approveApplication")
+    @JsonIgnore
+    private List<User> approveUser;
 
     @ManyToOne
     @JsonIgnore

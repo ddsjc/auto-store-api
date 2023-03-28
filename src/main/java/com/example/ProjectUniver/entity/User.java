@@ -8,6 +8,7 @@ import org.hibernate.annotations.FetchMode;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -28,6 +29,10 @@ public class User {
     private String email;
 
     private String login;
+
+    @ManyToMany
+    @JsonIgnore
+    private  List<Application> approveApplication;
 
     private String password;
 
@@ -64,9 +69,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany (mappedBy = "user" )
+    @ManyToOne
     @JsonIgnore
-    private List<Application> applications;
+    private Application application;
 
     @OneToOne
     @JsonIgnore

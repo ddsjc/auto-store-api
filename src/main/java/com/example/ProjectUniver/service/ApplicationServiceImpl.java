@@ -21,17 +21,16 @@ public class ApplicationServiceImpl implements ApplicationService{
     @Autowired
     private ServiceDopRepository serviceDopRepository;
     @Override
-    public void createApplication(Application event, ServiceDop serviceDop, User user) {
+    public void createApplication(Application event, ServiceDop serviceDop) {
         //event.setCurrentDate(LocalDate.now());
         ServiceDop serviceDop1 = serviceDopRepository.save(serviceDop);
         List<ServiceDop>serviceDopSet= new ArrayList<>();
         serviceDopSet.add(serviceDop1);
         event.setServiceDop(serviceDopSet);
-        event.setUser(user);
         //AddressType addressType1 = addressTypeRepository.save(addressType);
         //address.setAddressType(addressType1);
         //Address address1 = addressRepository.save(address);
-        Application savedEvent = applicationRepository.save(event);
+        applicationRepository.save(event);
     }
 
     @Override

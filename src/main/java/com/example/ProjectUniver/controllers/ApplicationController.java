@@ -51,24 +51,26 @@ public class ApplicationController {
         //Address address = convertToAddress(applicationDTO.getAddressDto());
         //AddressType addressType = convertToAddressType(applicationDTO.getAddressDto().getAddressTypeDto());
         ServiceDop serviceDop= convertToServiceDop(applicationDTO.getServiceDopDto());
-        event.setUser(user);
-        applicationService.createApplication(event, serviceDop,user);
-        return new ResponseEntity<>(new MessageResponse("Заявка успешно создана"), HttpStatus.BAD_REQUEST);
+        event.setOrganization(user.getOrganization());
+        applicationService.createApplication(event, serviceDop);
+        return new ResponseEntity<>(new MessageResponse("Заявка успешно создана"), HttpStatus.OK);
 
     }
-//    @PostMapping("/submitapplication")
-//    @Operation(summary = "Выбрать")
-//    public ResponseEntity<MessageResponse> submitApplication (@RequestBody GetApplicationDto getApplicationDto,@AuthenticationPrincipal UserDetails userDetails){
-//       Optional<Application> application = applicationRepository.findById(getApplicationDto.getId());
-//       application.getClass().getFields().ge
-//    }
+    @PostMapping("/submitapplication")
+    @Operation(summary = "Выбрать")
+    public ResponseEntity<MessageResponse> submitApplication (@RequestBody GetApplicationDto getApplicationDto,@AuthenticationPrincipal UserDetails userDetails){
+       Application application = applicationRepository.findById(getApplicationDto.getId()).get();
+        User user = userRepository.findUserByLogin(userDetails.getUsername());
+          user.setApplication(application);
+        userRepository.save(user);
+       return new ResponseEntity<>(new MessageResponse("Заявка выбрана"), HttpStatus.OK);
+
+    }
 
     private Application convertToApplication(ApplicationDto applicationDTO) {
         return modelMapper.map(applicationDTO, Application.class);
     }
-//    private Application convertToApplication(GetApplicationDto applicationDTO) {
-//        return modelMapper.map(applicationDTO, Application.class);
-//    }
+
     private ServiceDop convertToServiceDop(ServiceDopDto serviceDopDto) {
         return modelMapper.map(serviceDopDto, ServiceDop.class);
     }

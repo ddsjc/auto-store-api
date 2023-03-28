@@ -1,6 +1,7 @@
 package com.example.ProjectUniver.dto;
 
 import com.example.ProjectUniver.entity.ServiceDop;
+import com.example.ProjectUniver.entity.User;
 import lombok.Data;
 
 import java.util.List;
