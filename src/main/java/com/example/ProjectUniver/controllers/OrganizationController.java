@@ -36,7 +36,6 @@ public class OrganizationController {
         ) { if(!application.getUser().isEmpty()){
             for (User user:application.getUser()){
             GetApproveApplicationDto getApplicationDto = new  GetApproveApplicationDto(application.getFirstName(),user.getLogin());
-//закинуть айдишник заявки
 
             getApplicationDtos.add(getApplicationDto);}}
         }
