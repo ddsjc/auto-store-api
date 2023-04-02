@@ -8,6 +8,7 @@ import com.example.ProjectUniver.entity.Application;
 import com.example.ProjectUniver.entity.Organization;
 import com.example.ProjectUniver.entity.User;
 import com.example.ProjectUniver.repository.ApplicationRepository;
+import com.example.ProjectUniver.repository.OrganizationRepository;
 import com.example.ProjectUniver.repository.UserRepository;
 import com.example.ProjectUniver.service.ApplicationService;
 import com.example.ProjectUniver.service.UserService;
@@ -39,6 +40,8 @@ public class UserController {
     ApplicationService applicationService;
     @Autowired
     ApplicationRepository applicationRepository;
+    @Autowired
+    OrganizationRepository organizationRepository;
 
     @GetMapping("/user")
     @Operation(summary = "Показать информацию о пользователе")
@@ -58,7 +61,7 @@ public class UserController {
 //        actorRepository.save(actor);
 //        return ResponseEntity.ok(actor);
 //    }
-    @GetMapping("/applicationpage")
+/*    @GetMapping("/applicationpage")
     private ResponseEntity <List<GetApplicationDto>>GetApplication(){
         List<Application> applicationList = applicationRepository.findAll();
         List<GetApplicationDto> getApplicationDtos = new ArrayList<>();
@@ -71,7 +74,8 @@ public class UserController {
             getApplicationDtos.add(getApplicationDto);
         }
         return ResponseEntity.ok(getApplicationDtos);
-    }
+    }*/
+
     @PatchMapping("/user/update")
     @Operation(summary = "Обновить информацию о пользователе")
     public ResponseEntity<User> updateUser(@RequestBody UpdateDto actorDto, @AuthenticationPrincipal UserDetails userDetails){

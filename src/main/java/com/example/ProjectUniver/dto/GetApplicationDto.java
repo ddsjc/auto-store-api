@@ -1,5 +1,6 @@
 package com.example.ProjectUniver.dto;
 
+import com.example.ProjectUniver.entity.Address;
 import com.example.ProjectUniver.entity.ServiceDop;
 import com.example.ProjectUniver.entity.User;
 import lombok.Data;
@@ -10,14 +11,13 @@ import java.util.List;
 public class GetApplicationDto {
     private Integer id;
     private String firstName;
-    private String dateApplication;
-    private String addInfo;
+    private List<Address> addresses;
+    private String organizationName;
     private List<ServiceDop> serviceDopList;
 
-    public GetApplicationDto(Integer id, String dateApplication, String addInfo, String firstName) {
+
+    public GetApplicationDto(Integer id, String firstName) {
         this.id = id;
-        this.dateApplication = dateApplication;
-        this.addInfo = addInfo;
         this.firstName = firstName;
         //this.serviceDopDtoList = serviceDopDtoList;
     }

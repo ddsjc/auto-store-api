@@ -106,12 +106,12 @@ public class UserServiceImp implements UserService {
     public MessageResponse registration(RegistrationOrganizationDto registrationOrganizationDto) {
         if (actorRepository.existsByLogin(registrationOrganizationDto.getUsername())) {
 //            throw new GlobalException("Ошибка: Пользователь с таким логином уже зарегистрирован!", HttpStatus.BAD_REQUEST);
-            return new MessageResponse("Ошибка: Организация с таким логином уже зарегистрирован!");
+            return new MessageResponse("Ошибка: Организация с таким логином уже зарегистрирована!");
         }
 
         if (actorRepository.existsActorByEmail(registrationOrganizationDto.getEmail())) {
 //            throw new GlobalException("Ошибка: Пользователь с таким email уже зарегестрирован", HttpStatus.BAD_REQUEST);
-            return new MessageResponse("Ошибка: Организация с таким email уже зарегистрирован!");
+            return new MessageResponse("Ошибка: Организация с таким email уже зарегистрирована!");
 
         }
 
@@ -138,7 +138,7 @@ public class UserServiceImp implements UserService {
         organizationService.createOrganization(organization, address, addressType);
         user.setOrganization(organization);
         actorRepository.save(user);
-        return new MessageResponse("Организация " + user.getLogin() + " успешно зарегистрирована!");
+        return new MessageResponse("Организация " + user.getLogin() + " успешно зарегистрирована, ожидайте её подтверждения!");
     }
 
 

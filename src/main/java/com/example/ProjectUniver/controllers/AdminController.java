@@ -52,6 +52,29 @@ public class AdminController {
 OrganizationService organizationService;
 @Autowired
     OrganizationRepository organizationRepository;
+    @GetMapping("/checkapproveorganization")
+    private ResponseEntity <List<GetApproveOrganizationDto> >GetApproveOrganization(){
+        List<Organization> organizationList = organizationRepository.findAll();
+        List<GetApproveOrganizationDto> getApproveOrganizationDtos = new ArrayList<>();
+        for (Organization organization:organizationList
+        ) { if(organization.getApprove()==true){
+            GetApproveOrganizationDto getApproveOrganizationDto = new GetApproveOrganizationDto(organization.getUser().getFirstName()
+                    ,organization.getUser().getLastName(),
+                    organization.getUser().getPatronymic(),
+                    organization.getUser().getPhoneNumber(),
+                    organization.getUser().getLogin(),organization.getUser().getEmail(),
+                    organization.getOrganizationFullName(),
+                    organization.getOrganizationShortName(),
+                    organization.getInn(),organization.getKpp(), organization.getOgrn(),organization.getApprove());
+
+
+            getApproveOrganizationDto.setAddress(organization.getAddresses());
+            getApproveOrganizationDtos.add(getApproveOrganizationDto);
+        }
+        }
+        return ResponseEntity.ok(getApproveOrganizationDtos);
+
+    }
     @GetMapping("/checkorganization")
     private ResponseEntity <List<GetOrganizationDto> >GetOrganization(){
         List<Organization> organizationList = organizationRepository.findAll();

@@ -31,8 +31,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Organization findOrganizationByLogin(String login) {
         User user = userRepository.findUserByLogin(login);
-        Organization organization = user.getOrganization();
-        return organization;
+        return user.getOrganization();
     }
 
 }
