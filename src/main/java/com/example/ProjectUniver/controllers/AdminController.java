@@ -2,7 +2,9 @@ package com.example.ProjectUniver.controllers;
 
 import com.example.ProjectUniver.dto.*;
 import com.example.ProjectUniver.entity.Address;
+import com.example.ProjectUniver.entity.Application;
 import com.example.ProjectUniver.entity.Organization;
+import com.example.ProjectUniver.entity.ServiceDop;
 import com.example.ProjectUniver.repository.OrganizationRepository;
 import com.example.ProjectUniver.repository.UserRepository;
 import com.example.ProjectUniver.service.OrganizationService;
@@ -11,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 public class AdminController {
@@ -81,7 +80,7 @@ OrganizationService organizationService;
         List<GetOrganizationDto> getOrganizationDtos = new ArrayList<>();
         for (Organization organization:organizationList
         ) { if(organization.getApprove()==false){
-            GetOrganizationDto getOrganizationDto = new GetOrganizationDto(organization.getUser().getFirstName()
+            GetOrganizationDto getOrganizationDto = new GetOrganizationDto(organization.getId(), organization.getUser().getFirstName()
                     ,organization.getUser().getLastName(),
                     organization.getUser().getPatronymic(),
                     organization.getUser().getPhoneNumber(),
@@ -96,8 +95,19 @@ OrganizationService organizationService;
         }
         }
         return ResponseEntity.ok(getOrganizationDtos);
-
     }
+
+    @GetMapping("/onenonapproveorganization")
+    private ResponseEntity<List<GetOneOrganizationDto>>GetOneOrganization(@RequestParam Integer id){
+        Organization organization = organizationRepository.findById(id).get();
+        List<GetOneOrganizationDto> getOneOrganizationDtos = new ArrayList<>();
+        if (organization.getApprove()==false) {
+            GetOneOrganizationDto getOneOrganizationDto = new GetOneOrganizationDto(organization.getId(), organization.getOrganizationShortName());
+            getOneOrganizationDtos.add(getOneOrganizationDto);
+        }
+        return ResponseEntity.ok(getOneOrganizationDtos);
+    }
+
     @PatchMapping ("/approve")
     private ResponseEntity<String> ApproveChange(@RequestParam String login){
         Organization organization = organizationService.findOrganizationByLogin(login);

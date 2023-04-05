@@ -8,6 +8,7 @@ import java.util.Set;
 
 @Data
 public class GetOrganizationDto {
+    private Integer id;
     private String firstName;
     private String lastName;
     private String patronymic;
@@ -22,7 +23,8 @@ public class GetOrganizationDto {
     private List<Address> address;
     private Boolean approve;
 
-    public GetOrganizationDto(String firstName, String lastName, String patronymic, String phoneNumber, String username, String email, String organizationFullName, String organizationShortName, String inn, String kpp, String ogrn, Boolean approve) {
+    public GetOrganizationDto(Integer id, String firstName, String lastName, String patronymic, String phoneNumber, String username, String email, String organizationFullName, String organizationShortName, String inn, String kpp, String ogrn, Boolean approve) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;

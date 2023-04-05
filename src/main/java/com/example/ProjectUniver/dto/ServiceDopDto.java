@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class ServiceDopDto {
     private String name;
-    private Double price;
+    private String price; //double
 }

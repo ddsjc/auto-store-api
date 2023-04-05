@@ -35,7 +35,7 @@ public class OrganizationController {
         for (Application application:applicationList
         ) { if(!application.getUser().isEmpty()){
             for (User user:application.getUser()){
-            GetApproveApplicationDto getApplicationDto = new  GetApproveApplicationDto(application.getFirstName(),user.getLogin());
+            GetApproveApplicationDto getApplicationDto = new  GetApproveApplicationDto(application.getFirstName(),user.getLogin(), user.getPhoneNumber());
 
             getApplicationDtos.add(getApplicationDto);}}
         }
