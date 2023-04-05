@@ -75,6 +75,27 @@ OrganizationService organizationService;
 
     }
     @GetMapping("/checkorganization")
+    private ResponseEntity <List<GetOrganizationDto>> GetOrganization(@RequestParam Integer id){
+        Organization organization = organizationRepository.findById(id).get();
+        List<GetOrganizationDto> getOrganizationDtos = new ArrayList<>();
+          if(organization.getApprove()==false){
+            GetOrganizationDto getOrganizationDto = new GetOrganizationDto(organization.getId(), organization.getUser().getFirstName()
+                    ,organization.getUser().getLastName(),
+                    organization.getUser().getPatronymic(),
+                    organization.getUser().getPhoneNumber(),
+                    organization.getUser().getLogin(),organization.getUser().getEmail(),
+                    organization.getOrganizationFullName(),
+                    organization.getOrganizationShortName(),
+                    organization.getInn(),organization.getKpp(), organization.getOgrn(),organization.getApprove());
+
+
+            getOrganizationDto.setAddress(organization.getAddresses());
+            getOrganizationDtos.add(getOrganizationDto);
+        }
+        return ResponseEntity.ok(getOrganizationDtos);
+    }
+
+/*    @GetMapping("/checkorganization")
     private ResponseEntity <List<GetOrganizationDto> >GetOrganization(){
         List<Organization> organizationList = organizationRepository.findAll();
         List<GetOrganizationDto> getOrganizationDtos = new ArrayList<>();
@@ -95,9 +116,20 @@ OrganizationService organizationService;
         }
         }
         return ResponseEntity.ok(getOrganizationDtos);
+    }*/
+//for (Organization organization:organizationList)
+       @GetMapping("/onenonapproveorganization")
+        private ResponseEntity<List<GetOneOrganizationDto>>GetOneOrganization(){
+        List<Organization> organizationList = organizationRepository.findAll();
+        List<GetOneOrganizationDto> getOneOrganizationDtos = new ArrayList<>();
+        for (Organization organization:organizationList)
+        if (organization.getApprove()==false) {
+            GetOneOrganizationDto getOneOrganizationDto = new GetOneOrganizationDto(organization.getId(), organization.getOrganizationShortName());
+            getOneOrganizationDtos.add(getOneOrganizationDto);
+        }
+        return ResponseEntity.ok(getOneOrganizationDtos);
     }
-
-    @GetMapping("/onenonapproveorganization")
+     /*      @GetMapping("/onenonapproveorganization")
     private ResponseEntity<List<GetOneOrganizationDto>>GetOneOrganization(@RequestParam Integer id){
         Organization organization = organizationRepository.findById(id).get();
         List<GetOneOrganizationDto> getOneOrganizationDtos = new ArrayList<>();
@@ -106,7 +138,8 @@ OrganizationService organizationService;
             getOneOrganizationDtos.add(getOneOrganizationDto);
         }
         return ResponseEntity.ok(getOneOrganizationDtos);
-    }
+    }*/
+
 
     @PatchMapping ("/approve")
     private ResponseEntity<String> ApproveChange(@RequestParam String login){
