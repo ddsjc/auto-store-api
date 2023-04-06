@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
+@RequestMapping("/admin")
 public class AdminController {
 //    @Autowired
 //    OrganizationRepository organizationRepository;
@@ -74,7 +75,7 @@ OrganizationService organizationService;
         return ResponseEntity.ok(getApproveOrganizationDtos);
 
     }
-    @GetMapping("/checkorganization")
+    @GetMapping("/onenonapproveorganization")
     private ResponseEntity <List<GetOrganizationDto>> GetOrganization(@RequestParam Integer id){
         Organization organization = organizationRepository.findById(id).get();
         List<GetOrganizationDto> getOrganizationDtos = new ArrayList<>();
@@ -118,7 +119,7 @@ OrganizationService organizationService;
         return ResponseEntity.ok(getOrganizationDtos);
     }*/
 //for (Organization organization:organizationList)
-       @GetMapping("/onenonapproveorganization")
+       @GetMapping("/checkorganization")
         private ResponseEntity<List<GetOneOrganizationDto>>GetOneOrganization(){
         List<Organization> organizationList = organizationRepository.findAll();
         List<GetOneOrganizationDto> getOneOrganizationDtos = new ArrayList<>();

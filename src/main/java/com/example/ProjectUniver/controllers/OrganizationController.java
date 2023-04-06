@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("organization")
 public class OrganizationController {
     @Autowired
     private ModelMapper modelMapper;

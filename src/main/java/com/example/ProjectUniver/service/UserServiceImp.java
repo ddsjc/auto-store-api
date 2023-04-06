@@ -123,7 +123,7 @@ public class UserServiceImp implements UserService {
 
         switch (requestRole) {
             case "ROLE_ORGANIZATION":
-                Role roleStudent = roleRepository.findByName(ERole.ROLE_USER)
+                Role roleStudent = roleRepository.findByName(ERole.ROLE_ORGANIZATION)
                         .orElseThrow(() -> new GlobalException("Роль 'Организация' не найдена", HttpStatus.BAD_REQUEST));
                 roles.add(roleStudent);
                 break;

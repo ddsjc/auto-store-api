@@ -37,7 +37,7 @@ public class ApplicationController {
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/createapplication")
+    @PostMapping("/organization/createapplication")
     @Operation(summary = "Создать заявочку")
 
     public ResponseEntity<MessageResponse> createApplication(@RequestBody ApplicationDto applicationDTO,
