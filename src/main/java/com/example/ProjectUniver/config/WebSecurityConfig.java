@@ -32,7 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
+                .allowedOrigins("http://localhost:3000")
+                .allowCredentials(true)
                 .allowedMethods("*");
     }
     private static final String[] AUTH_WHITELIST = {
@@ -84,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/auth/**", "/swagger-ui/**","/forgot_password/**","/event/photos/**").permitAll()
+                .antMatchers("/auth/**", "/swagger-ui/**","/forgot_password/**","/event/photos/**", "/user/**" ).permitAll()
                 .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/organization/**").hasAuthority("ROLE_ORGANIZATION")
                 .anyRequest().authenticated();

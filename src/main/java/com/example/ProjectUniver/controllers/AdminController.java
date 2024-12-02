@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
@@ -143,8 +144,8 @@ OrganizationService organizationService;
 
 
     @PatchMapping ("/approve")
-    private ResponseEntity<String> ApproveChange(@RequestParam String login){
-        Organization organization = organizationService.findOrganizationByLogin(login);
+    private ResponseEntity<String> ApproveChange(@RequestParam Integer login){
+        Organization organization = organizationRepository.findById(login).get();
         organization.setApprove(true);
         organizationRepository.save(organization);
         return ResponseEntity.ok("Организация подтверждена");

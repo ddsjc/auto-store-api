@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Регистрация организации</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function showPassword() {
+            var password = document.getElementById("password");
+            if (password.type === "password") {
+                password.type = "text";
+            } else {
+                password.type = "password";
+            }
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2>Регистрация организации</h2>
+    <form action="#" th:action="@{/registrationOrganization}" th:object="${registrationOrganizationDto}" method="post">
+        <div class="form-group">
+            <label for="firstName">Имя:</label>
+            <input type="text" class="form-control" id="firstName" placeholder="Введите имя" th:field="*{firstName}" required>
+        </div>
+        <div class="form-group">
+            <label for="lastName">Фамилия:</label>
+            <input type="text" class="form-control" id="lastName" placeholder="Введите фамилию" th:field="*{lastName}" required>
+        </div>
+        <div class="form-group">
+            <label for="patronymic">Отчество:</label>
+            <input type="text" class="form-control" id="patronymic" placeholder="Введите отчество" th:field="*{patronymic}" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Номер телефона:</label>
+            <input type="text" class="form-control" id="phoneNumber" placeholder="Введите номер телефона" th:field="*{phoneNumber}" required>
+        </div>
+        <div class="form-group">
+            <label for="login">Логин:</label>
+            <input type="text" class="form-control" id="login" placeholder="Введите логин" th:field="*{login}" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Пароль:</label>
+            <input type="password" class="form-control" id="password" placeholder="Введите пароль" th:field="*{password}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Электронная почта:</label>
+            <input type="email" class="form-control" id="email" placeholder="Введите адрес электронной почты" th:field="*{email}" required>
+        </div>
+        <div class="form-group">
+            <label for="organizationFullName">Полное название организации:</label>
+            <input type="text" class="form-control" id="organizationFullName" placeholder="Введите полное название организации" th:field="*{organizationFullName}" required>
+        </div>
+        <div class="form-group">
+            <label for="organizationShortName">Краткое название организации:</label>
+            <input type="text" class="form-control" id="organizationShortName" placeholder="Введите краткое название организации" th:field="*{organizationShortName}" required>
+        </div>
+        <div class="form-group">
+            <label for="inn">ИНН:</label>
+            <input type="text" class="form-control" id="inn" placeholder="Введите ИНН" th:field="*{inn}" required>
+        </div>
+        <div class="form-group">
+            <label for="kpp">КПП:</label>
+            <input type="text" class="form-control" id="kpp" placeholder="Введите КПП" th:field="*{kpp}" required>
+        </div>
+        <div class="form-group">
+            <label for="ogrn">ОГРН:</label>
+            <input type="text" class="form-control" id="ogrn" placeholder="Введите ОГРН" th:field="*{ogrn}" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Юридический адрес:</label>
+            <input type="text" class="form-control" id="address" placeholder="Введите юридический адрес" th:field="*{address}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+    </form>
+</div>
+<script th:src="@{/webjars/bootstrap/5.3.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

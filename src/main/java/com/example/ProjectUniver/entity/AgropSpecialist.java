@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Data
 @Entity
-public class AgropidrSpecialist {
+public class AgropSpecialist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
